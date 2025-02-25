@@ -1,28 +1,33 @@
-use std::io::{prelude::*, BufReader};
-use std::net::{TcpListener, TcpStream};
+mod address;
+mod connection;
+mod response;
+mod status;
 
-fn main() {
-    let listener = TcpListener::bind("127.0.0.1:8080").unwrap();
+use address::Address;
+use connection::Connection;
 
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+use std::env;
+use std::ops::Index;
+use std::process::ExitCode;
 
-        println!("Connection established!");
+fn main() -> ExitCode {
+    let args: Vec<String> = env::args().collect();
 
-        handle_connection(stream);
+    if args.len() < 3 {
+        let exec_path = args.index(0);
+
+        eprintln!("Too few parameters");
+        println!("Correct usage: {exec_path} <host> <port>");
+
+        return ExitCode::FAILURE;
     }
-}
 
-fn handle_connection(mut stream: TcpStream) {
-    let buf_reader = BufReader::new(&stream);
+    let address = Address {
+        host: args.index(1).to_string(),
+        port: args.index(2).to_string(),
+    };
 
-    let _http_request: Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+    Connection.listen(address);
 
-    let response = "HTTP/1.1 200 OK\r\n\r\n";
-
-    stream.write_all(response.as_bytes()).unwrap();
+    ExitCode::SUCCESS
 }
