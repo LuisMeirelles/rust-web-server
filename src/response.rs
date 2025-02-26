@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
 pub struct Response {
-    pub contents: String,
+    pub body: String,
     pub status: Status,
     pub headers: HashMap<String, String>,
 }
@@ -14,7 +14,7 @@ impl Display for Response {
 
         let headers = self.build_headers();
 
-        write!(f, "{status_line}\r\n{headers}\r\n\r\n{}", self.contents)
+        write!(f, "{status_line}\r\n{headers}\r\n\r\n{}", self.body)
     }
 }
 
@@ -31,7 +31,7 @@ impl Response {
     fn build_headers(&self) -> String {
         let mut headers = self.headers.clone();
 
-        let content_length = self.contents.len().to_string();
+        let content_length = self.body.len().to_string();
 
         headers.insert("Content-Length".to_string(), content_length.to_string());
 

@@ -1,10 +1,15 @@
+use crate::address::Address;
+use crate::renderer::print_request_and_response;
 use crate::response::Response;
 use crate::status::Status;
-use crate::address::Address;
 
 use std::collections::HashMap;
-use std::io::{BufRead, BufReader, Write};
-use std::net::{TcpListener, TcpStream};
+use std::ops::Index;
+use std::{
+    fs,
+    io::{prelude::*, BufReader},
+    net::{TcpListener, TcpStream},
+};
 
 pub struct Connection;
 
@@ -15,7 +20,7 @@ impl Connection {
         for stream in listener.incoming() {
             let stream = stream.unwrap();
 
-            println!("Connection established!\n");
+            println!("\nConnection established!");
 
             Connection::handle_connection(stream);
         }
@@ -30,22 +35,41 @@ impl Connection {
             .take_while(|line| !line.is_empty())
             .collect();
 
-        println!("Request:\n");
-        println!("{}\n\n", http_request.join("\r\n"));
+        let filename = http_request
+            .index(0)
+            .split(" ")
+            .nth(1)
+            .and_then(|path| path.strip_prefix("/"))
+            .filter(|path| !path.is_empty())
+            .unwrap_or("index.html");
 
-        let contents = "<div style=\"width: 100px; height: 100px; background: red;\"></div>";
+        let file_contents = fs::read_to_string(format!("./views/{filename}"));
+
+        let (status, body) = match file_contents {
+            Ok(contents) => (Status::Ok, contents),
+            Err(_) => {
+                let status = Status::NotFound;
+                let status_code = status as u16;
+
+                let file_path = format!("views/errors/{}.html", status_code);
+
+                let body = fs::read_to_string(file_path).unwrap_or(String::from("Not Found"));
+
+                (status, body)
+            }
+        };
 
         let mut headers: HashMap<String, String> = HashMap::new();
 
         headers.insert("Content-Type".to_string(), "text/html".to_string());
 
         let response = Response {
-            contents: contents.to_string(),
-            status: Status::Ok,
+            body,
+            status,
             headers,
         };
 
-        println!("Response: \n\n{}", response.to_string());
+        print_request_and_response(&http_request, &response);
 
         stream.write_all(response.to_string().as_bytes()).unwrap();
     }

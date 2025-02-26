@@ -5,6 +5,7 @@ use std::fmt::Display;
 pub enum Status {
     Ok = 200,
     BadRequest = 400,
+    NotFound = 404,
     InternalServerError = 500,
 }
 
@@ -13,6 +14,7 @@ impl Display for Status {
         let description = match self {
             Status::Ok => "OK",
             Status::BadRequest => "Bad Request",
+            Status::NotFound => "Not Found",
             Status::InternalServerError => "Internal Server Error",
         };
 
