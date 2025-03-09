@@ -3,6 +3,8 @@ mod connection;
 mod response;
 mod status;
 mod renderer;
+mod request;
+mod method;
 
 use address::Address;
 use connection::Connection;
