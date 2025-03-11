@@ -1,13 +1,8 @@
-mod address;
-mod connection;
-mod response;
-mod status;
-mod renderer;
-mod request;
-mod method;
+mod app;
+mod core;
+mod loggers;
 
-use address::Address;
-use connection::Connection;
+use core::{address::Address, connection::Connection};
 
 use std::env;
 use std::ops::Index;

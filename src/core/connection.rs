@@ -1,9 +1,10 @@
-use crate::address::Address;
-use crate::response::Response;
-use crate::renderer::print_request_and_response;
-use crate::request::Request;
+use crate::core::address::Address;
+use crate::core::request::Request;
 
-use crate::status::Status;
+use crate::app::controllers::Repeater;
+
+use crate::loggers::renderer::print_request_and_response;
+
 use std::collections::HashMap;
 use std::{
     io::{prelude::*, BufReader},
@@ -34,11 +35,9 @@ impl Connection {
 
         let request = Request::new(&mut buf_reader);
 
-        let response = Response {
-            body: (&request.body).to_string(),
-            status: Status::Ok,
-            headers,
-        };
+        let mut response = Repeater::handle(&request);
+
+        response.headers.extend(headers);
 
         print_request_and_response(&request, &response);
 

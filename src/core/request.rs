@@ -1,4 +1,4 @@
-use crate::method::Method;
+use crate::core::method::Method;
 
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};

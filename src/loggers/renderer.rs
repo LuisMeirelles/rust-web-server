@@ -1,5 +1,5 @@
-use crate::request::Request;
-use crate::response::Response;
+use crate::core::request::Request;
+use crate::core::response::Response;
 
 const DOUBLE_LINE: &str =
     "================================================================================";
