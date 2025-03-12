@@ -1,7 +1,7 @@
-use crate::core::status::Status;
-
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
+
+use super::status::Status;
 
 pub struct Response {
     pub body: String,

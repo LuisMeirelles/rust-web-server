@@ -1,5 +1,4 @@
 use crate::core::address::Address;
-use crate::core::request::Request;
 
 use crate::app::controllers::Repeater;
 
@@ -10,6 +9,9 @@ use std::{
     io::{prelude::*, BufReader},
     net::{TcpListener, TcpStream},
 };
+
+use super::controller::handler::Handler;
+use super::controller::request::Request;
 
 pub struct Connection;
 

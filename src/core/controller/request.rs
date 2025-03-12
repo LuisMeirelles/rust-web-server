@@ -1,10 +1,10 @@
-use crate::core::method::Method;
-
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::io::{BufRead, BufReader, Read};
 use std::net::TcpStream;
 use std::str::FromStr;
+
+use super::method::Method;
 
 type Headers = HashMap<String, String>;
 
