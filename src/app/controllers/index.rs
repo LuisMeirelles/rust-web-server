@@ -33,6 +33,7 @@ pub struct Index;
 
 impl Handler<User> for Index {
     fn handle(user: User) -> Response {
+        // TODO: implement a Json struct abstracting this
         let mut data: HashMap<String, JsonValue> = HashMap::new();
 
         data.insert("name".into(), JsonValue::String(user.name.clone()));
