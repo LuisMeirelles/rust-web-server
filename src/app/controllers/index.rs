@@ -2,12 +2,14 @@ use std::collections::HashMap;
 
 use crate::core::{
     controller::{
-        from_request::FromRequest, handler::Handler, request::Request, response::Response,
-        status::Status,
+        handler::{FromRequest, Handler},
+        request::Request,
+        response::{Response, Status},
     },
     serializer::json::JsonValue,
 };
 
+// start mock block
 pub struct User {
     name: String,
     age: u8,
@@ -25,6 +27,7 @@ impl FromRequest for User {
         })
     }
 }
+// end mock block
 
 pub struct Index;
 

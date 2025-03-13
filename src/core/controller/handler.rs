@@ -1,4 +1,10 @@
-use super::{from_request::FromRequest, request::Request, response::Response};
+use super::{request::Request, response::Response};
+
+pub trait FromRequest {
+    fn from_request(request: &Request) -> Option<Self>
+    where
+        Self: Sized;
+}
 
 pub trait Handler<T: FromRequest> {
     fn handle(param: T) -> Response;

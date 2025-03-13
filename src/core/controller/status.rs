@@ -1,4 +1,4 @@
-use std::fmt::Display;
+/* use std::fmt::Display;
 
 #[derive(Copy, Clone)]
 #[allow(dead_code)]
@@ -20,4 +20,4 @@ impl Display for Status {
 
         write!(f, "{description}")
     }
-}
+} */
