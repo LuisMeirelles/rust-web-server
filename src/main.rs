@@ -24,7 +24,7 @@ fn main() -> ExitCode {
         port: args.index(2).to_string(),
     };
 
-    Connection.listen(address);
+    Connection::listen(address);
 
     ExitCode::SUCCESS
 }

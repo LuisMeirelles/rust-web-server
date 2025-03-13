@@ -16,7 +16,7 @@ use super::controller::request::Request;
 pub struct Connection;
 
 impl Connection {
-    pub fn listen(&self, address: Address) {
+    pub fn listen(address: Address) {
         let listener = TcpListener::bind(address.to_string()).expect("Failed to bind to address");
 
         for stream in listener.incoming() {
