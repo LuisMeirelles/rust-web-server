@@ -8,6 +8,7 @@ use super::method::Method;
 
 type Headers = HashMap<String, String>;
 
+#[allow(dead_code)]
 pub struct Request {
     pub body: String,
     pub path: String,

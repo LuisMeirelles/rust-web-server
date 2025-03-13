@@ -10,7 +10,7 @@ use std::{
     net::{TcpListener, TcpStream},
 };
 
-use super::controller::handler::Handler;
+use super::controller::handler::{call_handler, Handler};
 use super::controller::request::Request;
 
 pub struct Connection;
@@ -37,7 +37,8 @@ impl Connection {
 
         let request = Request::new(&mut buf_reader);
 
-        let mut response = Repeater::handle(&request);
+        let mut response = call_handler(Repeater::handle, &request).unwrap();
+        // let mut response = Repeater::handle(&request);
 
         response.headers.extend(headers);
 
