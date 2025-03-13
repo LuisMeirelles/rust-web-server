@@ -2,7 +2,7 @@ use crate::core::address::Address;
 
 use crate::app::controllers::Repeater;
 
-use crate::loggers::renderer::print_request_and_response;
+use crate::core::loggers::renderer::print_request_and_response;
 
 use std::collections::HashMap;
 use std::{

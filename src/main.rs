@@ -1,6 +1,5 @@
 mod app;
 mod core;
-mod loggers;
 
 use core::{address::Address, connection::Connection};
 
