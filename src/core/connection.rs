@@ -1,6 +1,6 @@
 use crate::core::address::Address;
 
-use crate::app::controllers::Repeater;
+use crate::app::controllers::Index;
 
 use crate::core::loggers::renderer::print_request_and_response;
 
@@ -37,8 +37,7 @@ impl Connection {
 
         let request = Request::new(&mut buf_reader);
 
-        let mut response = call_handler(Repeater::handle, &request).unwrap();
-        // let mut response = Repeater::handle(&request);
+        let mut response = call_handler(Index::handle, &request).unwrap();
 
         response.headers.extend(headers);
 

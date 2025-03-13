@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
+use crate::core::serializer::json::{JsonSerializer, JsonValue};
+
 use super::status::Status;
 
 pub struct Response {
@@ -20,6 +22,20 @@ impl Display for Response {
 }
 
 impl Response {
+    pub fn new(
+        body: HashMap<String, JsonValue>,
+        status: Status,
+        headers: HashMap<String, String>,
+    ) -> Self {
+        let body = JsonSerializer::serialize(body);
+
+        Self {
+            body,
+            status,
+            headers,
+        }
+    }
+
     fn build_status_line(&self) -> String {
         const HTTP_VERSION: &str = "HTTP/1.1";
 
