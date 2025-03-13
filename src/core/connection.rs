@@ -31,16 +31,20 @@ impl Connection {
     fn handle_connection(mut stream: TcpStream) {
         let mut buf_reader = BufReader::new(&stream);
 
+        let request = Request::new(&mut buf_reader);
+
+        // TODO: add the router
+        let mut response = call_handler(Index::handle, &request).unwrap();
+
+        // TODO: make a type for Headers
         let mut headers: HashMap<String, String> = HashMap::new();
 
         headers.insert("Content-Type".to_string(), "application/json".to_string());
 
-        let request = Request::new(&mut buf_reader);
-
-        let mut response = call_handler(Index::handle, &request).unwrap();
-
         response.headers.extend(headers);
 
+        // TODO: add post controller actions
+        // TODO: create a pipeline abstraction for middlewares/validators/transformers -> controllers -> interceptors
         print_request_and_response(&request, &response);
 
         stream.write_all(response.to_string().as_bytes()).unwrap();
