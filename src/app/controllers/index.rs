@@ -6,7 +6,7 @@ use crate::core::{
         request::Request,
         response::{Response, Status},
     },
-    serializer::json::JsonValue,
+    serializer::json::Json,
 };
 
 // start mock block
@@ -33,12 +33,13 @@ pub struct Index;
 
 impl Handler<User> for Index {
     fn handle(user: User) -> Response {
-        // TODO: implement a Json struct abstracting this
-        let mut data: HashMap<String, JsonValue> = HashMap::new();
+        // TODO: maybe use a ToJson trait in all serializable struct so i can pass it as generic
+        // type and pass any other struct as source or something like that?
+        let mut json = Json::new();
 
-        data.insert("name".into(), JsonValue::String(user.name.clone()));
-        data.insert("age".into(), JsonValue::Int(user.age.into()));
+        json.set("name".into(), user.name.clone());
+        json.set("age".into(), user.age as i64);
 
-        Response::new(data, Status::Ok, HashMap::new())
+        Response::new(&json, Status::Ok, HashMap::new())
     }
 }

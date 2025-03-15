@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
-use crate::core::serializer::json::{JsonSerializer, JsonValue};
+use crate::core::serializer::json::Json;
 
 #[derive(Copy, Clone)]
 #[allow(dead_code)]
@@ -42,12 +42,8 @@ impl Display for Response {
 }
 
 impl Response {
-    pub fn new(
-        body: HashMap<String, JsonValue>,
-        status: Status,
-        headers: HashMap<String, String>,
-    ) -> Self {
-        let body = JsonSerializer::serialize(body);
+    pub fn new(body: &Json, status: Status, headers: HashMap<String, String>) -> Self {
+        let body = body.serialize();
 
         Self {
             body,
